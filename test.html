@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CreateJS test</title>
+    <script src="easeljs-0.7.1.min.js"></script>
+    <script src="tweenjs-0.5.1.min.js"></script>
+    <script>
+      var app = {
+        initialize: function () {
+          var canvas = document.getElementById("sampleCanvas")
+          var stage = new createjs.Stage(canvas);
+          var bitmap = new createjs.Bitmap("abby.svg");
+          stage.addChild(bitmap);
+          createjs.Ticker.addEventListener("tick", function (e) {
+            stage.update();
+          });
+        }
+      }
+    </script>
+  </head>
+  <body onload="app.initialize();">
+    <canvas id="sampleCanvas" height="300" width="300"></canvas>
+  </body>
+</html>
