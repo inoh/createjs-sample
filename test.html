@@ -3,6 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title>CreateJS test</title>
+    <style>
+      .trimming {
+        width: 300px;
+        height: 300px;
+        background: url("abby.svg") no-repeat 50% 50%;
+      }
+    </style>
+    <script src="zepto.min.js"></script>
+<!--    <script src="jquery-1.11.0.min.js"></script>-->
     <script src="easeljs-0.7.1.min.js"></script>
     <script src="tweenjs-0.5.1.min.js"></script>
     <script>
@@ -11,7 +20,7 @@
           var canvas = document.getElementById("sampleCanvas")
           var stage = new createjs.Stage(canvas);
           var bitmap = new createjs.Bitmap("abby.svg");
-          stage.addChild(bitmap);
+          //stage.addChild(bitmap);
           createjs.Ticker.addEventListener("tick", function (e) {
             stage.update();
           });
@@ -20,6 +29,7 @@
     </script>
   </head>
   <body onload="app.initialize();">
+    <p class="trimming"></p>
     <canvas id="sampleCanvas" height="300" width="300"></canvas>
   </body>
 </html>
