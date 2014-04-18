@@ -3,13 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>CreateJS test</title>
-    <style>
-      .trimming {
-        width: 300px;
-        height: 300px;
-        background: url("abby.svg") no-repeat 50% 50%;
-      }
-    </style>
     <script src="zepto.min.js"></script>
 <!--    <script src="jquery-1.11.0.min.js"></script>-->
     <script src="easeljs-0.7.1.min.js"></script>
@@ -17,19 +10,26 @@
     <script>
       var app = {
         initialize: function () {
-          var canvas = document.getElementById("sampleCanvas")
-          var stage = new createjs.Stage(canvas);
-          var bitmap = new createjs.Bitmap("abby.svg");
-          //stage.addChild(bitmap);
+          var stage = new createjs.Stage("sampleCanvas");
+          var abby = new createjs.Bitmap("abby01.png");
+          var background = new createjs.Bitmap("background.jpg");
+          stage.addChild(background);
+          stage.addChild(abby);
+          var first = true;
           createjs.Ticker.addEventListener("tick", function (e) {
+            if (first == true) {
+              stage.canvas.width = background.image.width;
+              stage.canvas.height = background.image.height;
+              first = false;
+            }
             stage.update();
+            abby.x += 1
           });
         }
       }
     </script>
   </head>
   <body onload="app.initialize();">
-    <p class="trimming"></p>
-    <canvas id="sampleCanvas" height="300" width="300"></canvas>
+    <canvas id="sampleCanvas"></canvas>
   </body>
 </html>
