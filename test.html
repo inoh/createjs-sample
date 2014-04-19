@@ -10,22 +10,28 @@
     <script>
       var app = {
         initialize: function () {
-          var stage = new createjs.Stage("sampleCanvas");
-          var background = new createjs.Bitmap("image/background.jpg");
-          stage.enableMouseOver(30);
-          stage.addChild(background);
-          stage.addChild(this.createAbby());
+          var stage = this.createStage("sampleCanvas");
           var first = true;
           createjs.Ticker.addEventListener("tick", function (e) {
             if (first == true) {
-              stage.canvas.width = background.image.width;
-              stage.canvas.height = background.image.height;
+              // TODO tick後じゃないとimageのサイズがとれない
+              // TODO 背景画像の位置が固定になっている
+              stage.canvas.width = stage.children[0].image.width;
+              stage.canvas.height = stage.children[0].image.height;
               first = false;
             }
             stage.update();
             // TODO abbyの位置が固定になっている
             stage.children[1].x += 1
           });
+        },
+        createStage: function (id) {
+          var stage = new createjs.Stage(id);
+          stage.enableMouseOver(30);
+          stage.addChild(this.createAbby());
+          var background = new createjs.Bitmap("image/background.jpg");
+          stage.addChildAt(background, 0);
+          return stage;
         },
         createAbby: function () {
           var abby = new createjs.Bitmap("image/abby02.png");
