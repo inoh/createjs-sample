@@ -11,19 +11,10 @@
       var app = {
         initialize: function () {
           var stage = new createjs.Stage("sampleCanvas");
-          var abby = new createjs.Bitmap("image/abby02.png");
-          abby.addEventListener("mousedown", function (event) {
-            event.currentTarget.image.src = "image/abby03.png";
-          });
-          abby.addEventListener("mouseup", function (e) {
-            abby.image.src = "image/abby02.png";
-          });
-          abby.addEventListener("mousemove", function (e) {
-            console.log(e);
-          });
           var background = new createjs.Bitmap("image/background.jpg");
+          stage.enableMouseOver(30);
           stage.addChild(background);
-          stage.addChild(abby);
+          stage.addChild(this.createAbby());
           var first = true;
           createjs.Ticker.addEventListener("tick", function (e) {
             if (first == true) {
@@ -32,8 +23,22 @@
               first = false;
             }
             stage.update();
-            abby.x += 1
+            // TODO abbyの位置が固定になっている
+            stage.children[1].x += 1
           });
+        },
+        createAbby: function () {
+          var abby = new createjs.Bitmap("image/abby02.png");
+          abby.addEventListener("mousedown", this.changeAbby);
+          abby.addEventListener("click", this.returnAbby);
+          abby.addEventListener("mouseout", this.returnAbby);
+          return abby;
+        },
+        changeAbby: function (event) {
+          event.target.image.src = "image/abby03.png";
+        },
+        returnAbby: function (event) {
+          event.target.image.src = "image/abby02.png";
         }
       }
     </script>
