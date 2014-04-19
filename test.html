@@ -11,8 +11,17 @@
       var app = {
         initialize: function () {
           var stage = new createjs.Stage("sampleCanvas");
-          var abby = new createjs.Bitmap("abby01.png");
-          var background = new createjs.Bitmap("background.jpg");
+          var abby = new createjs.Bitmap("image/abby02.png");
+          abby.addEventListener("mousedown", function (event) {
+            event.currentTarget.image.src = "image/abby03.png";
+          });
+          abby.addEventListener("mouseup", function (e) {
+            abby.image.src = "image/abby02.png";
+          });
+          abby.addEventListener("mousemove", function (e) {
+            console.log(e);
+          });
+          var background = new createjs.Bitmap("image/background.jpg");
           stage.addChild(background);
           stage.addChild(abby);
           var first = true;
