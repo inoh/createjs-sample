@@ -11,6 +11,8 @@
       var app = {
         initialize: function () {
           var stage = this.createStage("sampleCanvas");
+          var text = new createjs.Text("abby","36px Impact", "#CCC");
+          stage.addChild(text);
           var first = true;
           createjs.Ticker.addEventListener("tick", function (e) {
             if (first == true) {
@@ -23,6 +25,7 @@
             stage.update();
             // TODO abbyの位置が固定になっている
             stage.children[1].x += 1
+            stage.children[2].x += 1
           });
         },
         createStage: function (id) {
