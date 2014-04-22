@@ -5,12 +5,22 @@
     <title>CreateJS test</title>
     <script src="zepto.min.js"></script>
 <!--    <script src="jquery-1.11.0.min.js"></script>-->
+    <script src="preloadjs-0.4.1.min.js"></script>
     <script src="easeljs-0.7.1.min.js"></script>
     <script src="tweenjs-0.5.1.min.js"></script>
     <script>
       var app = {
+        queue: null,
         initialize: function () {
-          var stage = this.createStage("sampleCanvas");
+          this.queue = new createjs.LoadQueue();
+          this.queue.addEventListener('fileload', this.loadComplate);
+          this.queue.loadFile({id: "background", src: "image/background.jpg"});
+          this.queue.loadFile({id: "abby02", src: "image/abby02.png"});
+          this.queue.loadFile({id: "abby03", src: "image/abby03.png"});
+        },
+        loadComplate: function (event) {
+          var queue = event.target;
+          var stage = app.createStage("sampleCanvas");
           var text = new createjs.Text("abby","36px Impact", "#CCC");
           stage.addChild(text);
           var first = true;
@@ -32,12 +42,12 @@
           var stage = new createjs.Stage(id);
           stage.enableMouseOver(30);
           stage.addChild(this.createAbby());
-          var background = new createjs.Bitmap("image/background.jpg");
+          var background = new createjs.Bitmap(app.queue.getResult('background'));
           stage.addChildAt(background, 0);
           return stage;
         },
-        createAbby: function () {
-          var abby = new createjs.Bitmap("image/abby02.png");
+        createAbby: function (image) {
+          var abby = new createjs.Bitmap(app.queue.getResult('abby02'));
           abby.addEventListener("mousedown", this.changeAbby);
           abby.addEventListener("click", this.returnAbby);
           abby.addEventListener("mouseout", this.returnAbby);
