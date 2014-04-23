@@ -12,14 +12,14 @@
       var app = {
         queue: null,
         initialize: function () {
-          this.queue = new createjs.LoadQueue();
-          this.queue.addEventListener('fileload', this.loadComplate);
-          this.queue.loadFile({id: "background", src: "image/background.jpg"});
-          this.queue.loadFile({id: "abby02", src: "image/abby02.png"});
-          this.queue.loadFile({id: "abby03", src: "image/abby03.png"});
+          var queue = new createjs.LoadQueue();
+          queue.addEventListener('fileload', this.loadComplate);
+          queue.loadFile({id: "background", src: "image/background.jpg"});
+          queue.loadFile({id: "abby02", src: "image/abby02.png"});
+          queue.loadFile({id: "abby03", src: "image/abby03.png"});
         },
         loadComplate: function (event) {
-          var queue = event.target;
+          app.queue = event.target;
           var stage = app.createStage("sampleCanvas");
           var text = new createjs.Text("abby","36px Impact", "#CCC");
           stage.addChild(text);
