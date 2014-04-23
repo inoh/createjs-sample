@@ -54,10 +54,10 @@
           return abby;
         },
         changeAbby: function (event) {
-          event.target.image.src = "image/abby03.png";
+          event.target.image = app.queue.getResult('abby03');
         },
         returnAbby: function (event) {
-          event.target.image.src = "image/abby02.png";
+          event.target.image = app.queue.getResult('abby02');
         }
       }
     </script>
