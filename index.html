@@ -44,6 +44,9 @@
           stage.addChild(this.createAbby());
           var background = new createjs.Bitmap(app.queue.getResult('background'));
           stage.addChildAt(background, 0);
+          if (createjs.Touch.isSupported()) {
+            createjs.Touch.enable(stage);
+          }
           return stage;
         },
         createAbby: function (image) {
