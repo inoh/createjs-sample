@@ -10,7 +10,6 @@
     <script src="tweenjs-0.5.1.min.js"></script>
     <script>
       var app = {
-        queue: null,
         initialize: function () {
           var queue = new createjs.LoadQueue();
           queue.addEventListener('fileload', this.loadComplate);
@@ -19,48 +18,38 @@
           queue.loadFile({id: "abby03", src: "image/abby03.png"});
         },
         loadComplate: function (event) {
-          app.queue = event.target;
-          var stage = app.createStage("sampleCanvas");
+          var queue = event.target;
+          var stage = new createjs.Stage("sampleCanvas");
+          var abby = new createjs.Bitmap(queue.getResult('abby02'));
+          abby.addEventListener("mousedown", function (event) {
+            abby.image = queue.getResult('abby03');
+          });
+          stage.addChild(abby);
+          var background = new createjs.Bitmap(queue.getResult('background'));
+          stage.addChildAt(background, 0);
+          stage.addEventListener("stagemouseup", function (event) {
+            abby.image = queue.getResult('abby02');
+          });
+          if (createjs.Touch.isSupported()) {
+            createjs.Touch.enable(stage);
+          }
           var text = new createjs.Text("abby","36px Impact", "#CCC");
           stage.addChild(text);
           var first = true;
           createjs.Ticker.addEventListener("tick", function (e) {
             if (first == true) {
               // TODO tick後じゃないとimageのサイズがとれない
-              // TODO 背景画像の位置が固定になっている
-              stage.canvas.width = stage.children[0].image.width;
-              stage.canvas.height = stage.children[0].image.height;
+              stage.canvas.width = background.image.width;
+              stage.canvas.height = background.image.height;
               first = false;
             }
             stage.update();
-            // TODO abbyの位置が固定になっている
-            stage.children[1].x += 1
-            stage.children[2].x += 1
+            abby.x += 1
+            text.x += 1
           });
         },
-        createStage: function (id) {
-          var stage = new createjs.Stage(id);
-          stage.enableMouseOver(30);
-          stage.addChild(this.createAbby());
-          var background = new createjs.Bitmap(app.queue.getResult('background'));
-          stage.addChildAt(background, 0);
-          if (createjs.Touch.isSupported()) {
-            createjs.Touch.enable(stage);
-          }
-          return stage;
-        },
-        createAbby: function (image) {
-          var abby = new createjs.Bitmap(app.queue.getResult('abby02'));
-          abby.addEventListener("mousedown", this.changeAbby);
-          abby.addEventListener("click", this.returnAbby);
-          abby.addEventListener("mouseout", this.returnAbby);
-          return abby;
-        },
         changeAbby: function (event) {
-          event.target.image = app.queue.getResult('abby03');
-        },
-        returnAbby: function (event) {
-          event.target.image = app.queue.getResult('abby02');
+          event.target.image = queue.getResult('abby03');
         }
       }
     </script>
