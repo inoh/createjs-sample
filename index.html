@@ -8,6 +8,7 @@
     <script src="preloadjs-0.4.1.min.js"></script>
     <script src="easeljs-0.7.1.min.js"></script>
     <script src="tweenjs-0.5.1.min.js"></script>
+    <script src="soundjs-0.5.2.min.js"></script>
     <script>
       var app = {
         initialize: function () {
@@ -16,9 +17,15 @@
           queue.loadFile({id: "background", src: "image/background.jpg"});
           queue.loadFile({id: "abby02", src: "image/abby02.png"});
           queue.loadFile({id: "abby03", src: "image/abby03.png"});
+          queue.loadFile({id: "sakuramp3", src: "sound/sakurabiyori.mp3"});
+          queue.loadFile({id: "sakuraogg", src: "sound/sakurabiyori.ogg"});
         },
         loadComplate: function (event) {
           var queue = event.target;
+          createjs.Sound.addEventListener("fileload", createjs.proxy(function (event) {
+            createjs.Sound.play("sakuramp3");
+          }));
+          createjs.Sound.registerSound("sound/sakurabiyori.mp3", "sakuramp3")
           var stage = new createjs.Stage("sampleCanvas");
           var abby = new createjs.Bitmap(queue.getResult('abby02'));
           abby.addEventListener("mousedown", function (event) {
